@@ -25,7 +25,7 @@ Với bài toán nội suy thì cực tiểu của E tìm được sẽ bằng 0
    - 2.1. Tính $E'(c^0) = \left[\frac{\partial E}{\partial c_1}, ..., \frac{\partial E}{\partial c_m}\right]^T$;
    - 2.2. $\alpha_1=\alpha$ // $\alpha\in(0,1]$ cho trước
    - 2.3. $c^1=c^0-\alpha_1E'(c^0)$;
-   - 2.4. Nếu $E(c^1)<E(c^0)$ thì $c^0 \leftarrow c^1$ và quay lại 2.1;
+   - 2.4. Nếu $E(c^1) < E(c^0)$ thì $c^0 \leftarrow c^1$ và quay lại 2.1;
    - 2.5. Ngược lại: $\alpha_1 \leftarrow \frac{\alpha_1}{2}$ và trở lại 2.3
 
 Thuật toán dừng khi $||E'(c^1)||$ đủ bé, trong đó $||u||=\sqrt{\sum_{i=1}^{M} u_i^2}$ là chuẩn Euclide của véc-tơ u trong $R^M$.
