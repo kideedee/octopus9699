@@ -182,7 +182,7 @@ Cho 1 không gian giả thuyết H, ta nói 1 giả thuyết $h\in H$ là overfi
 
 # 9. Cho biết các bài toán thích hợp với học bằng cây quyết định
 
----
+## Cần bổ sung
 
 # 10. Giải thích khái niệm miền và biên quyết định, trình bày thuật toán học Perceptron
 
@@ -191,7 +191,7 @@ Cho 1 không gian giả thuyết H, ta nói 1 giả thuyết $h\in H$ là overfi
 - Trong các bài toán phân lớp mẫu, mỗi mẫu x trong tập đối tượng X thường được biểu diễn bởi n đặc trưng: $x=(x_1, ..., x_n)$. Để phân X thành k lớp $\{\omega_1, ..., \omega_n\}$, người ta thường dùng **k hàm phân biệt** hay còn gọi là **hàm quyết định**: $g_i(x)~~~~i=1, ..., k$, mỗi hàm xác định 1 lớp. Mỗi đối tượng có véc-tơ đặc trưng x được gán cho lớp $\omega_i$ nếu giá trị hàm phân biệt $g_i(x)$ lớn nhất, tức là:
   $$x \in \omega_i \text{ nếu } g_i(x) > g_j(x) \forall i \neq j$$
 - Bằng cách này, bộ phân lớp được xem như một mạng hay một máy dùng để tính k hàm phân biệt và chọn lớp ứng với giá trị hàm phân biệt lớn nhất để gán cho mỗi đối tượng như được minh họa trong hình sau
-  ![alt text](cac-ham-phan-biet.png)
+  ![alt text](imgs/cac-ham-phan-biet.png)
 - Trong trường hợp các đặc trưng nhận giá trị thực, các hàm phân biệt chia không gian thành k miền $\{R_i\}_{i=1}^k$, mỗi miền $R_i$ xác định một lớp:
   $$
   R_i = \left\{ \mathbf{x} \in X : g_i(\mathbf{x}) = \max \left\{ g_j(\mathbf{x}) \mid \forall j \leq k \right\} \right\}
@@ -203,7 +203,7 @@ Cho 1 không gian giả thuyết H, ta nói 1 giả thuyết $h\in H$ là overfi
 
 - Xét bài toán có 2 lớp $\omega_1$, $\omega_2$, gồm n đặc trưng. Quan sát được $D=D_1 \cup D_2$, $D_i$ là các mẫu thuộc lớp $\omega_i$.
 - Cần tìm véc-tơ w và hệ số $w_0$ sao cho:
-$$g(x) = w'x + w_0 > 0 \forall x \in D_1 \text{ và } g(x) < 0 \forall x \in D_2$$
+  $$g(x) = w'x + w_0 > 0 \forall x \in D_1 \text{ và } g(x) < 0 \forall x \in D_2$$
 - Định nghĩa 2 hàm hardlim : $R \rightarrow R$ và t: $D \rightarrow R$ như sau:
 <pre>
 hardlim(x) = {
@@ -211,11 +211,86 @@ hardlim(x) = {
   0,  if x < 0
 }
 </pre>
-***
+
+---
 
 # 12. Giải thích ý nghĩa các khái niệm tách tuyệt đối và tách theo cặp khi các lớp tách được tuyến tính, trình bày thuật toán Widrow-Hoff
 
 ## Khái niệm tách tuyệt đối và tách theo cặp khi các lớp tách được tuyến tính
-Thông thường, các mẫu trong mỗi lớp được đặc trưng bởi 1 phân bố ngẫu nhiên. Trong hình sau, các elip biểu diễn <span style="color: coral;">biên</span>
+
+Thông thường, các mẫu trong mỗi lớp được đặc trưng bởi 1 phân bố ngẫu nhiên. Trong hình sau, các elip biểu diễn **biên** của phân phối và còn được gọi là **giới hạn lớp**
+![alt text](imgs/tach-tuyet-doi-trong-r2.png)
 
 **Tách tuyệt đối**
+
+- Là khi mỗi lớp được tách hẳn ra khói các lớp còn lại, ta nói tập mẫu tách được tuyệt đối.
+- Khi các lớp tách được tuyệt đối thì hệ nhận dạng sẽ có cấu trúc phân cấp mô tả bởi cây quyết định nhị phân như mình họa sau, trong đó $g_{23}(x) = g_2(s) - g_3(x)$ để tách lớp $\omega_1$ với $\omega_2$
+  ![alt text](imgs/cay-nhi-phan-tach-2-lop-tuyet-doi.png)
+
+**Tách theo cặp**
+
+- Có những trường hợp tập mẫu không tách được tuyệt đối nhưng có thể tách theo từng cặp như minh họa trong hình sau
+  ![alt text](imgs/3-lop-tach-theo-tung-cap-r2.png)
+- Các trường hợp này không thể mô tả được bằng cây quyết định. Trường hợp này, người ta xác định $\frac{k(k-1)}{2}$ siêu phẳng tách từng cặp lớp nhờ dùng các hàm phân biệt thỏa mãn:
+  $$g_{ij}(x) > 0 \forall x \in \omega_i \text{ và } g_{ij}(x) < 0 \forall x \in \omega_j$$
+- Miền quyết định lúc này là: $R_i = \{x; ~g_{ij}(x) > 0, ~i,j=1, ..., k\}$
+- Để xây dựng các bộ phân lớp, ta dùng các thuật toán tìm véc-tơ w và hệ số $w_0$ của hàm phân biệt: $g_i(x) = \omega^Tx + \omega_0$
+
+## Trình bày thuật toán Widrow-Hoff (Bình phương tối thiểu - LMS)
+
+- Ta xét bài toán với tập quan sát $D={x^i} ~ i=1, ..., N$ với nhãn $t(x^i)$ tương ứng, $a(x) = \sum_{i=1}^{N} w_i x_i + w_0$
+- Quy tắc phân lớp sẽ là: $x \in \omega_1$ nếu a(x) > 0 và $x \in \omega_2$ nếu a(x) < 0
+- Tập mẫu này không đảm bảo sẽ hội tụ khi sử dụng học perceptron.
+
+**Sai số trung bình phương**
+
+- Với tập D, véc-tơ $w$ và $w_0$ đã cho, sai số trung bình phương của bộ phân lớp là: $E = E(S, w, w_0) = [t(x^i) - a(x^i)]^2$. Trong đó, t(x) là nhãn thật, a(x) là nhãn được mô hình dự đoán.
+- Khi x lấy ngãu nhiên cùng phân bố với D trong không gian đặc trưng thì $E(D, w, w_0)$ là xấp xỉ của kỳ vọng bình phương sai số:
+  $$E[t(x^i) - a(x^i)]^2$$
+- Mục tiêu là tìm $w$ và $w_0$ sao cho E đạt cực tiểu
+- Bài toán tìm cực tiểu E luôn có nghiệm (mục 2.4, chương 2), có thể tìm nghiệm nhờ giải hệ phương tình:
+  $$\frac{\partial E}{\partial w_k}=0 ~~~~ \text{với k=0, ..., n}$$
+- Khi N lớn, việc giải hệ phương tình này có sai số lớn và độ phức tạp $O(N^3)$ nên khó thực hiện.
+- Widrow và Hoff đề xuất dùng phương pháp gradient để tìm các $w_k$
+
+**Thuật toán Widrow-Hoff**
+
+1. Khởi tạo ngẫu nhiên $w$ và $w_0$
+2. Thực hiện lặp theo k. Lấy ngẫu nhiên $y^k$ trong D và hiệu chỉnh trọng số:
+   - $w^{mới}=w^{cũ} + 2^\alpha e(y^k)y^k$
+   - $w_0^{mới}=w_0^{cũ} + 2^\alpha e(y^k)$
+   - $\alpha$ là tốc độ học $0<\alpha < \frac{1}{\lambda_{max}}$ với \lambda\_{max} là giá trị riêng lớn nhất của ma trận tương quan mẫu:
+3. Điều kiện kết thúc có thể là số lần lặp hoặc độ lệch của sai số trung bình phương nhỏ hơn cho trước.
+   ![alt text](imgs/lms.png)
+
+---
+
+# 13. Thành phần chính là gì? cho biết ý nghĩa của phân tích thành phần chính.
+
+## Thành phần chính là gì ?
+
+- Thành phần chính là các biến đổi tuyến tính của đặc trưng gốc nên khi giảm chiều có thể làm mất thông tin phi tuyến trong dữ liệu.
+
+Bổ sung thêm
+
+---
+
+# 14. Anh (chị) biết những phương pháp nào để giảm chiều dữ liệu, cho biết ưu nhược điểm của từng phương pháp.
+
+Bổ sung
+
+---
+
+# 15. Trình bày phương pháp tìm phân biệt tuyến tính nhờ khoảng cách cực tiểu với khoảng cách Euclid
+
+## Phân lớp khoảng cách cực tiểu
+
+- Xét trường hợp đối tượng là dữ liệu trộn của k lớp với trung bình mẫu tương ứng là tập véc-tơ $m_i$. Khi đó có thể dùng hàm phân biệt: $g_i(x)=-d(x, m_i)$.
+- Trong đó, $d(x, y)$ là khoảng cách xác định bởi metric chọn trước. Theo phương pháp này, sau khi tính trung bình mẫu của mỗi lớp, ta lấy chúng là tâm lớp và mỗi đối tượng sẽ được xếp vào lớp mà nó gần tâm nhất.
+
+## Phân biệt tuyến tính Euclide
+
+Quy tắc quyết định là: 
+$$x \in \omega_i \text{ nếu } -||x - m_i|| > -||x-m_j||~~ \forall ~ j \neq i$$
+
+$$\iff ||x||^2 + ||m_i||^2 - 2m_i^{'} > ||x||^2 + ||m_j||^2 - 2m_j^{'}x $$
